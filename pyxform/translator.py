@@ -1,58 +1,56 @@
 # vim: ai ts=4 sts=4 et sw=4 encoding=utf-8
 
 from collections import defaultdict
+import glob
+import os
+import utils
 
 def infinite_dict():
     return defaultdict(infinite_dict)
 
-# The big idea with this class structure is I want to do the
-# following:
+# Here's the big idea:
 # translator = Translator()
 # translator.add_translation(...)
-# translator.translate('How are you?').from('English').to('French')
-
-class _StringWithLanguageTranslator(object):
-    def __init__(self, dictionary):
-        self._dict = dictionary
-
-    def to(self, language):
-        if language in self._dict:
-            return self._dict[language]
-        return None
-
-class _StringTranslator(object):
-    def __init__(self, dictionary):
-        self._dict = dictionary
-        
-    def From(self, language):
-        # I had to capitalize From because from is a reserved keyword
-        dictionary = self._dict[language]
-        return _StringWithLanguageTranslator(dictionary)
+# translator.translate('How are you?')
+# {"English" : "How are you?", "French" : "cava?", "Spanish" : ...}
 
 class Translator(object):
+    
     def __init__(self, dictionary={}):
-        """
-        I'm being super lazy dictionary has to have the form:
-        {'yes' : {'English' : {'French' : 'oui'}}}
-        """
-        self._dict = infinite_dict()
+        self._dict = defaultdict(dict)
         self._languages = []
 
-    def add_translation(self, string, source_language,
-                        destination_language, translated_string):
-        for lang in [source_language, destination_language]:
-            if lang not in self._languages:
-                self._languages.append(lang)
-        self._dict[string][source_language][destination_language] = translated_string
+    def add_translation(self, english_string, destination_language, translated_string):
+        if destination_language not in self._languages:
+            self._languages.append(destination_language)
+        self._dict[english_string][destination_language] = translated_string
 
     def translate(self, string):
-        dictionary = self._dict[string]
-        return _StringTranslator(dictionary)
+        return self._dict.get(string, string)
 
     def to_dict(self):
-        return self._dict
+        return {
+            u"_dict" : self._dict,
+            u"_languages" : self._languages,
+            }
 
+    def load_from_json(self, path):
+        d = utils.get_pyobj_from_json(path)
+        for k, v in d.iteritems():
+            setattr(self, k, v)
 
+    def dump_to_json(self, path):
+        utils.print_pyobj_to_json(self.to_dict(), path)
+
+this_directory = os.path.dirname(__file__)
+translators_folder = os.path.join(this_directory, "translators", "*.json")
+TRANSLATORS = {}
+for path in glob.glob(translators_folder):
+    translator = Translator()
+    translator.load_from_json(path)
+    directory, file_name = os.path.split(path)
+    translator_name, extension = os.path.splitext(file_name)
+    TRANSLATORS[translator_name] = translator
 
 
 # code used to construct a translator from the excel files from phase II.
@@ -66,8 +64,7 @@ class Translator(object):
 #     keys = d.keys()
 #     keys.remove(u"English")
 #     for key in keys:
-#         yield {u"string" : d[u"English"],
-#                u"source_language" : u"English",
+#         yield {u"english_string" : d[u"English"],
 #                u"destination_language" : key,
 #                u"translated_string" : d[key]}
 
