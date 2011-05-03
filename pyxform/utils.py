@@ -45,3 +45,9 @@ def get_pyobj_from_json(str_or_path):
         # if it doesn't work load the text
         doc = json.loads(str_or_path)
     return doc
+
+import codecs
+def print_pyobj_to_json(pyobj, path):
+    fp = codecs.open(path, mode="w", encoding="utf-8")
+    json.dump(pyobj, fp=fp, ensure_ascii=False, indent=4)
+    fp.close()

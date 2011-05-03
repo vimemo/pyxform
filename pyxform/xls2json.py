@@ -6,13 +6,8 @@ from xlrd import open_workbook
 import json
 import re
 import sys
-import codecs
 import os
-
-def print_pyobj_to_json(pyobj, path):
-    fp = codecs.open(path, mode="w", encoding="utf-8")
-    json.dump(pyobj, fp=fp, ensure_ascii=False, indent=4)
-    fp.close()
+from utils import print_pyobj_to_json
 
 # the following are the three sheet names that this program expects
 SURVEY_SHEET = u"survey"
