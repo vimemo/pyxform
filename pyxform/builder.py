@@ -7,6 +7,7 @@ from xls2json import SurveyReader
 from question_type_dictionary import DEFAULT_QUESTION_TYPE_DICTIONARY, \
      QuestionTypeDictionary
 import os, glob
+from translator import TRANSLATORS
 
 class SurveyElementBuilder(object):
     # we use this CLASSES dict to create questions from dictionaries
@@ -31,6 +32,9 @@ class SurveyElementBuilder(object):
         self.set_question_type_dictionary(
             kwargs.get(u"question_type_dictionary")
             )
+        self.set_translator(
+            kwargs.get(u"translator")
+            )
 
     def set_sections(self, sections):
         """
@@ -46,6 +50,9 @@ class SurveyElementBuilder(object):
             self._question_type_dictionary = question_type_dictionary
         else:
             self._question_type_dictionary = DEFAULT_QUESTION_TYPE_DICTIONARY
+
+    def set_translator(self, translator):
+        self._translator = translator
 
     def _get_question_class(self, question_type_str):
         question_type = self._question_type_dictionary.get_definition(question_type_str)
@@ -169,7 +176,13 @@ class SurveyElementBuilder(object):
                         result[key][key2] = result[key][key2] % info
         return result
 
+    def _translate_label(self, d):
+        label = u'label'
+        if label in d:
+            d[label] = self._translator.translate(d[label])
+
     def create_survey_element_from_dict(self, d):
+        self._translate_label(d)
         if d[SurveyElement.TYPE] in self.SECTION_CLASSES:
             return self._create_section_from_dict(d)
         elif d[SurveyElement.TYPE]==u"loop":
@@ -218,11 +231,13 @@ def render_survey_package(survey_package):
 
 def create_survey(
     name_of_main_section, sections,
-    id_string=None, question_type_dictionary=None
+    id_string=None, question_type_dictionary=None,
+    translator=TRANSLATORS[u'nigeria']
     ):
     builder = SurveyElementBuilder()
     builder.set_sections(sections)
     builder.set_question_type_dictionary(question_type_dictionary)
+    builder.set_translator(translator)
     assert name_of_main_section in sections, name_of_main_section
     survey = builder.create_survey_element_from_dict(
         sections[name_of_main_section]
