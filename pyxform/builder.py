@@ -52,7 +52,10 @@ class SurveyElementBuilder(object):
             self._question_type_dictionary = DEFAULT_QUESTION_TYPE_DICTIONARY
 
     def set_translator(self, translator):
-        self._translator = translator
+        if translator is not None:
+            self._translator = TRANSLATORS[translator]
+        else:
+            self._translator = TRANSLATORS[u'no_translation']
 
     def _get_question_class(self, question_type_str):
         question_type = self._question_type_dictionary.get_definition(question_type_str)
@@ -178,7 +181,7 @@ class SurveyElementBuilder(object):
 
     def _translate_label(self, d):
         label = u'label'
-        if label in d:
+        if label in d and type(d[label])==unicode:
             d[label] = self._translator.translate(d[label])
 
     def create_survey_element_from_dict(self, d):
@@ -232,7 +235,7 @@ def render_survey_package(survey_package):
 def create_survey(
     name_of_main_section, sections,
     id_string=None, question_type_dictionary=None,
-    translator=TRANSLATORS[u'nigeria']
+    translator=u'nigeria'
     ):
     builder = SurveyElementBuilder()
     builder.set_sections(sections)
