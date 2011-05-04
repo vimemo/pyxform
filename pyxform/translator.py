@@ -26,7 +26,14 @@ class Translator(object):
         self._dict[english_string][destination_language] = translated_string
 
     def translate(self, string):
-        return self._dict.get(string, string)
+        assert type(string)==unicode
+        result = self._dict.get(string)
+        if result is None: return string
+        for language in self._languages:
+            if language not in result:
+                result[language] = string
+        result[u'English'] = string
+        return result
 
     def to_dict(self):
         return {
