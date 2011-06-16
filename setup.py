@@ -25,6 +25,11 @@ setup(
     install_requires=[
         'xlrd==0.7.1',
         ],
+    entry_points = {
+        'console_scripts': [
+            'pyxform = pyxform.main:main'
+        ]
+    },
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: BSD License",
