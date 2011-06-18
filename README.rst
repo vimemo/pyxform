@@ -10,7 +10,12 @@ look at the tutorial spreadsheet in the docs.
 
 Installing pyxform from github is easy with pip:
 
-pip install -e git+https://github.com/mvpdev/pyxform.git@master#egg=pyxform
+pip install -e git+https://github.com/mvpdev/pyxform.git@pip-entry-points#egg=pyxform
+
+Usage
+=====
+
+pyxform --help
 
 Testing
 =======
