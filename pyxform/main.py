@@ -17,12 +17,7 @@ except ImportError:
 
 import StringIO
 
-#from xls2json import SurveyReader
-from xls2json import SurveyReader as ExcelSurveyReader
-
-from translator import Translator
-from builder import create_survey as builder_create_survey
-from builder import create_survey_element_from_dict as builder_create_survey_element_from_dict
+# I moved pyxform specific imports into the main method to avoid import errors.
 
 def main():
     usage = "Usage: %prog survey_filename.xls [--flagged-arguments *...]"
@@ -82,8 +77,10 @@ def main():
             name = ifile.split("/")[-1]
             f = process_file_to_python_dict(ifile)
             sections[name] = f
+    from builder import create_survey as builder_create_survey
     survey = builder_create_survey(name_of_main_section=sname, sections=sections)
     if options.translators:
+        #from translator import Translator
         f = open(options.translators, 'r')
         _transl = json.loads(f.read())
         translations = _transl.get(u"_dict", None)
@@ -139,6 +136,7 @@ def process_file_to_python_dict(fn, action=None):
         if action is None: #still
             raise Exception("Don't know what to do with this file: %s" % fn)
     if action == "spreadsheet":
+        from xls2json import SurveyReader as ExcelSurveyReader
         s = ExcelSurveyReader(fn)
         z = s.to_dict()
         return s.to_dict()
