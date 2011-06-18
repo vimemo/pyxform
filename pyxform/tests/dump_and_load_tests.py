@@ -1,7 +1,7 @@
 from unittest import TestCase
 from pyxform.builder import create_survey_from_path
 from pyxform.xls2json import SurveyReader, print_pyobj_to_json
-from pyxform import Survey, InputQuestion
+from pyxform.all import Survey, InputQuestion
 import os
 
 class DumpAndLoadTests(TestCase):

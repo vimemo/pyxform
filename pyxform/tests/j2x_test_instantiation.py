@@ -2,7 +2,7 @@
 Testing the instance object for pyxform.
 """
 from unittest import TestCase
-from pyxform import *
+from pyxform.all import *
 from pyxform.builder import create_survey_element_from_dict
 
 class Json2XformExportingPrepTests(TestCase):

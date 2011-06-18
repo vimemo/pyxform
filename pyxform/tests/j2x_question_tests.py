@@ -2,7 +2,7 @@
 Testing creation of Surveys using verbose methods
 """
 from unittest import TestCase
-from pyxform import *
+from pyxform.all import *
 from pyxform.question import Question
 from pyxform.builder import create_survey_element_from_dict
 
