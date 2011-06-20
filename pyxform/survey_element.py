@@ -41,6 +41,7 @@ class SurveyElement(object):
         CONTROL : {},
         MEDIA : u""
         }
+    AVAILABLE_KEYS = [NAME, LABEL, HINT, TYPE, BIND, CONTROL, MEDIA]
 
     def __init__(self, *args, **kwargs):
         self._dict = defaultdict(dict)
@@ -53,6 +54,29 @@ class SurveyElement(object):
         self._question_type_dictionary = kwargs.get(
             u"question_type_dictionary", None
             )
+    
+    def __getattr__(self, key):
+        if key not in self.AVAILABLE_KEYS:
+            raise AttributeError(key)
+        try:
+            return self._dict[key]
+        except KeyError:
+            # to conform with __getattr__ spec
+            raise AttributeError(key)
+    
+    def __setattr__(self, key, value):
+        if key in ["_dict", "_parent", "_children",
+                    "_question_type_dictionary",
+                    "_xpath",
+                    "_created",
+                    "_id_string",
+                    "_translations",
+                    "_languages"]:
+            self.__dict__[key] = value
+        elif key not in self.AVAILABLE_KEYS:
+            raise AttributeError(key)
+        else:
+            self._dict[key] = value
 
     def get_question_type_dictionary(self):
         """
