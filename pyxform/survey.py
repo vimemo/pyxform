@@ -34,7 +34,7 @@ class Survey(Section):
         self._setup_xpath_dictionary()
         return node(u"h:html",
                     node(u"h:head",
-                         node(u"h:title", self.get_name()),
+                         node(u"h:title", self.name),
                          self.xml_model()
                         ),
                     node(u"h:body", *self.xml_control()),
@@ -43,7 +43,7 @@ class Survey(Section):
 
         # return E(ns("h", "html"),
         #          E(ns("h", "head"),
-        #            E(ns("h", "title"), self.get_name()),
+        #            E(ns("h", "title"), self.name),
         #            self.xml_model()
         #            ),
         #          E(ns("h", "body"), *self.xml_control())
@@ -208,7 +208,7 @@ class Survey(Section):
 
     def id_string(self):
         if self._id_string is None:
-            self._id_string = self.get_name() + "_" + self.date_stamp()
+            self._id_string = self.name + "_" + self.date_stamp()
         return self._id_string
 
     def xml_instance(self):
@@ -224,16 +224,16 @@ class Survey(Section):
         return self.xml().toxml()
 
     def __unicode__(self):
-        return "<survey name='%s' element_count='%s'>" % (self.get_name(), len(self._children))
+        return "<survey name='%s' element_count='%s'>" % (self.name, len(self._children))
 
     def _setup_xpath_dictionary(self):
         self._xpath = {}
         for element in self.iter_children():
             if isinstance(element, Question) or isinstance(element, Section):
-                if element.get_name() in self._xpath:
-                    self._xpath[element.get_name()] = None
+                if element.name in self._xpath:
+                    self._xpath[element.name] = None
                 else:
-                    self._xpath[element.get_name()] = element.get_xpath()
+                    self._xpath[element.name] = element.get_xpath()
 
     def _var_repl_function(self):
         """

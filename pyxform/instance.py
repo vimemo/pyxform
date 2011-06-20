@@ -6,9 +6,9 @@ class SurveyInstance(object):
         self.kwargs = kwargs #not sure what might be passed to this
 
         #does the survey object provide a way to get the key dicts?
-        self._keys = [c.get_name() for c in self._survey._children]
+        self._keys = [c.name for c in self._survey._children]
         
-        self._name = self._survey.get_name()
+        self._name = self._survey.name
         self._id = self._survey.id_string()
         
         # get xpaths

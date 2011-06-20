@@ -44,7 +44,7 @@ class SurveyElement(object):
     AVAILABLE_KEYS = [NAME, LABEL, HINT, TYPE, BIND, CONTROL, MEDIA]
 
     def __init__(self, *args, **kwargs):
-        self._dict = defaultdict(dict)
+        self._dict = {}
         for k, default_value in self._DEFAULT_VALUES.items():
             self._dict[k] = kwargs.get(k, default_value)
         self._parent = kwargs.get(u"parent", None)
@@ -56,7 +56,9 @@ class SurveyElement(object):
             )
     
     def __getattr__(self, key):
-        if key not in self.AVAILABLE_KEYS:
+        if key == "_dict":
+            return self.__dict__['_dict']
+        elif key not in self.AVAILABLE_KEYS:
             raise AttributeError(key)
         try:
             return self._dict[key]
@@ -120,9 +122,9 @@ class SurveyElement(object):
         self._dict[self.NAME] = name
 
     def validate(self):
-        if not is_valid_xml_tag(self.get_name()):
+        if not is_valid_xml_tag(self.name):
             msg = "The name of this survey element is an invalid xml tag. Names must begin with a letter, colon, or underscore, subsequent characters can include numbers, dashes, and periods."
-            raise Exception(self.get_name(), msg)                
+            raise Exception(self.name, msg)                
     
     def _set_parent(self, parent):
         self._parent = parent
@@ -152,14 +154,14 @@ class SurveyElement(object):
         """
         Return the xpath of this survey element.
         """
-        return u"/".join([u""] + [n.get_name() for n in self.get_lineage()])
+        return u"/".join([u""] + [n.name for n in self.get_lineage()])
 
     def get_abbreviated_xpath(self):
         lineage = self.get_lineage()
         if len(lineage) >= 2:
-            return u"/".join([n.get_name() for n in lineage[1:]])
+            return u"/".join([n.name for n in lineage[1:]])
         else:
-            return lineage[0].get_name()
+            return lineage[0].name
 
     def to_dict(self):
         self.validate()
@@ -173,7 +175,7 @@ class SurveyElement(object):
 
     def json_dump(self, path=""):
         if not path:
-            path = self.get_name() + ".json"
+            path = self.name + ".json"
         print_pyobj_to_json(self.to_dict(), path)
 
     def __eq__(self, y):
@@ -194,28 +196,28 @@ class SurveyElement(object):
     
     # XML generating functions, these probably need to be moved around.
     def xml_label(self):
-        if type(self.get_label())==dict:
+        if type(self.label)==dict:
             d = self.get_translation_keys()
             return node(u"label", ref="jr:itext('%s')" % d[u"label"])
-        elif type(self.get_media())==dict:
+        elif type(self.media)==dict:
             d = self.get_media_keys()
             return node(u"label", ref="jr:itext('%s')" %  d[u"media"])
         else:
-            return node(u"label", self.get_label())
+            return node(u"label", self.label)
 
     def xml_hint(self):
-        if type(self.get_hint())==dict:
+        if type(self.hint)==dict:
             d = self.get_translation_keys()
             return node(u"hint", ref="jr:itext('%s')" % d[u"hint"])
         else:
-            return node(u"hint", self.get_hint())
+            return node(u"hint", self.hint)
 
     def xml_label_and_hint(self):
         """
         Return a list containing one node for the label and if there
         is a hint one node for the hint.
         """
-        if self.get_hint():
+        if self.hint:
             return [self.xml_label(), self.xml_hint()]
         return [self.xml_label()]
 
@@ -224,7 +226,7 @@ class SurveyElement(object):
         Return the binding for this survey element.
         """
         survey = self.get_root()
-        d = self.get_bind().copy()
+        d = self._dict[u"bind"].copy()
         if d:
             for k, v in d.items():
                 d[k] = survey.insert_xpaths(v)
@@ -248,13 +250,11 @@ class SurveyElement(object):
         """
         raise Exception("Control not implemented")
 
-
-# add a bunch of get methods to the SurveyElement class
-def add_get_method(cls, key):
-    def get_method(self):
-        return self.get(key)
-    get_method.__name__ = str("get_%s" % key)
-    setattr(cls, get_method.__name__, get_method)
-
-for key in SurveyElement._DEFAULT_VALUES.keys():
-    add_get_method(SurveyElement, key)
+# def add_get_method(cls, key):
+#     def get_method(self):
+#         return self.get(key)
+#     get_method.__name__ = str("get_%s" % key)
+#     setattr(cls, get_method.__name__, get_method)
+# 
+# for key in SurveyElement._DEFAULT_VALUES.keys():
+#     add_get_method(SurveyElement, key)

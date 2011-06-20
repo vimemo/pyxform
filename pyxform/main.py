@@ -87,7 +87,7 @@ def main():
         def translate_element(s):
             for child in s._children:
                 translate_element(child)
-            l = s.get_label()
+            l = s.label
             result = {"English": l}
             if l.__class__ in [unicode, str]:
                 match = translations.get(l, None)

@@ -145,7 +145,7 @@ class SurveyElementBuilder(object):
                 question = self.create_survey_element_from_dict(question_dict)
                 column.add_child(question)
             result.add_child(column)
-        if result.get_name()!=u"": return result
+        if result.name!=u"": return result
         return result.get_children()
 
     def _create_question_dict_from_template_and_info(self, question_template, info):

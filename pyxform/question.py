@@ -26,7 +26,7 @@ class Question(SurveyElement):
         return _overlay(over, under)
 
     def xml_instance(self):
-        return node(self.get_name())
+        return node(self.name)
         
     def xml_control(self):
         return None
@@ -43,7 +43,7 @@ class InputQuestion(Question):
 
 class UploadQuestion(Question):
     def _get_media_type(self):
-        return self.get_control()[u"mediatype"]
+        return self.control[u"mediatype"]
         
     def xml_control(self):
         return node(
@@ -64,7 +64,7 @@ class Option(SurveyElement):
         SurveyElement.__init__(self, **d)
 
     def xml_value(self):
-        return node(u"value", self.get_name())
+        return node(u"value", self.name)
 
     def xml(self):
         item = node(u"item")
@@ -98,9 +98,9 @@ class MultipleChoiceQuestion(Question):
         self.add_child(option)
 
     def xml_control(self):
-        assert self.get_bind()[u"type"] in [u"select", u"select1"]
+        assert self._dict[u"bind"][u"type"] in [u"select", u"select1"]
         result = node(
-            self.get_bind()[u"type"],
+            self._dict[u"bind"][u"type"],
             ref=self.get_xpath()
             )
         for n in self.xml_label_and_hint():

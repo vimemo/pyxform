@@ -13,15 +13,15 @@ class Section(SurveyElement):
     def _validate_uniqueness_of_element_names(self):
         element_slugs = []
         for element in self._children:
-            if element.get_name() in element_slugs:
+            if element.name in element_slugs:
                 raise Exception(
                     "Element with this name already exists.",
-                    element_slugs, element.get_name()
+                    element_slugs, element.name
                     )
-            element_slugs.append(element.get_name())
+            element_slugs.append(element.name)
 
     def xml_instance(self):
-        result = node(self.get_name())
+        result = node(self.name)
         for child in self._children:
             result.appendChild(child.xml_instance())
         return result
