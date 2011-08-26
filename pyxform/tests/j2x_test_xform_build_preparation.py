@@ -2,7 +2,7 @@
 Testing preparation of values for XForm exporting
 """
 from unittest import TestCase
-from pyxform import *
+from pyxform.all import *
 
 import json
 

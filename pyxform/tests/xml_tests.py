@@ -1,5 +1,5 @@
 from unittest import TestCase
-from pyxform import create_survey_from_xls
+from pyxform.all import create_survey_from_xls
 import re
 import utils
 
