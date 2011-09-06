@@ -235,8 +235,8 @@ def create_survey(
     #assert name_of_main_section in sections, name_of_main_section
     survey = builder.create_survey_element_from_dict(main_section)
     survey.set_id_string(id_string)
-    survey.set_name(print_name)
     survey.set_title(title)
+#    survey.set_name(print_name)
     survey.set_print_name(print_name)
     survey.set_def_lang(default_language)
     return survey
@@ -253,6 +253,7 @@ def create_survey_from_path(path):
     pkg = {
         u'title': main_section_name,
         u'name_of_main_section': main_section_name,
+        u'print_name': main_section_name,
         u'sections': sections
     }
     return create_survey(**pkg)
