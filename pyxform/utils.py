@@ -15,6 +15,8 @@ XFORM_TAG_REGEXP = "%(start)s%(char)s*" % {
 
 
 def is_valid_xml_tag(tag):
+    if tag is None:
+        return False
     return re.search(r"^" + XFORM_TAG_REGEXP + r"$", tag)
 
 
