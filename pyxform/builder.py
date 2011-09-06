@@ -226,12 +226,16 @@ def create_survey(
     ):
     if main_section == None:
         main_section = sections[name_of_main_section]
+    if type(main_section) == list:
+        main_section = { u'type': u'survey',
+                    u'children': main_section }
     builder = SurveyElementBuilder()
     builder.set_sections(sections)
     builder.set_question_type_dictionary(question_type_dictionary)
     #assert name_of_main_section in sections, name_of_main_section
     survey = builder.create_survey_element_from_dict(main_section)
     survey.set_id_string(id_string)
+    survey.set_name(print_name)
     survey.set_title(title)
     survey.set_print_name(print_name)
     survey.set_def_lang(default_language)
