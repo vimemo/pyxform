@@ -8,6 +8,15 @@ import builder
 import json
 
 
+def write_choices_csv(workbook_path, csv_path):
+    import csv, xlrd
+    wb = xlrd.open_workbook(workbook_path)
+    sheet = wb.sheet_by_name('choices')
+    with open(csv_path, 'wb') as f:
+        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
+        for r in range(sheet.nrows):
+            writer.writerow(sheet.row_values(r))
+
 # Converter.
 def xls2xform_convert():
     # Warnings.
@@ -58,6 +67,11 @@ if __name__ == '__main__':
 
         # --json not present. Do not capture anything.
         else:
+            if '--choices_csv' in argv:
+                workbook_path = argv[1]
+                csv_path = argv[argv.index('--choices_csv') + 1]
+                write_choices_csv(workbook_path, csv_path)
+                
             warnings = xls2xform_convert()
 
             # Regular output. Just print.
