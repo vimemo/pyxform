@@ -670,13 +670,16 @@ def workbook_to_json(
             parse_dict = select_parse.groupdict()
             if parse_dict.get("select_command"):
                 select_type = aliases.select[parse_dict["select_command"]]
-                if select_type == 'select one external' and not 'choice_filter' in row:
+                if select_type == 'select one external'\
+                   and not 'choice_filter' in row:
                     warnings.append(rowFormatString % row_number +
-                        " select one external is only meant to be used for filtered selects.")
+                        u" select one external is only meant for"
+                        u" filtered selects.")
                     select_type = aliases.select['select_one']
                 list_name = parse_dict["list_name"]
 
-                if list_name not in choices:
+                if list_name not in choices\
+                   and select_type != 'select one external':
                     if not choices:
                         raise PyXFormError(
                             u"There should be a choices sheet in this xlsform."

@@ -3,6 +3,8 @@ import re
 import codecs
 import json
 import copy
+import csv
+import xlrd
 
 SEP = "_"
 
@@ -77,3 +79,22 @@ def get_pyobj_from_json(str_or_path):
         # if it doesn't work load the text
         doc = json.loads(str_or_path)
     return doc
+
+def flatten(li):
+    for subli in li:
+        for it in subli:
+            yield it
+
+def sheet_to_csv(workbook_path, csv_path, sheet_name):
+    wb = xlrd.open_workbook(workbook_path)
+    try:
+        sheet = wb.sheet_by_name(sheet_name)
+    except xlrd.biffh.XLRDError:
+        return False
+    if not sheet or sheet.nrows < 2: return False
+    with open(csv_path, 'wb') as f:
+        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
+        mask = [v and len(v.strip()) > 0 for v in sheet.row_values(0)]
+        for r in range(sheet.nrows):
+            writer.writerow([v for v,m in zip(sheet.row_values(r), mask)  if m])
+    return True

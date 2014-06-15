@@ -6,75 +6,65 @@ import sys
 import xls2json
 import builder
 import json
+import argparse
+from utils import sheet_to_csv
 
-
-def write_choices_csv(workbook_path, csv_path):
-    import csv, xlrd
-    wb = xlrd.open_workbook(workbook_path)
-    sheet = wb.sheet_by_name('choices')
-    with open(csv_path, 'wb') as f:
-        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
-        for r in range(sheet.nrows):
-            writer.writerow(sheet.row_values(r))
-
-# Converter.
-def xls2xform_convert():
-    # Warnings.
+def xls2xform_convert(xlsform_path, xform_path):
     warnings = []
 
-    json_survey = xls2json.parse_file_to_json(argv[1], warnings=warnings)
+    json_survey = xls2json.parse_file_to_json(xlsform_path, warnings=warnings)
     survey = builder.create_survey_element_from_dict(json_survey)
     # Setting validate to false will cause the form not to be processed by
     # ODK Validate.
     # This may be desirable since ODK Validate requires launching a subprocess
     # that runs some java code.
-    survey.print_xform_to_file(argv[2], validate=True, warnings=warnings)
+    survey.print_xform_to_file(xform_path, validate=True, warnings=warnings)
 
     return warnings
 
 
 if __name__ == '__main__':
-    argv = sys.argv
-    if len(argv) < 3:
-        print __doc__
-        print 'Usage:'
-        print argv[0] + ' path_to_XLSForm output_path'
-        print '--json    Output results in json format.'
+    parser = argparse.ArgumentParser()
+    parser.add_argument('path_to_XLSForm')
+    parser.add_argument('output_path')
+    parser.add_argument('--json',
+        action='store_true',
+        help="Capture everything and report in JSON format.")
+    parser.add_argument('--external_choices_csv',
+        default=None,
+        help="Output the choices sheet as a csv at the given location.")
+    args = parser.parse_args()
+    
+    if args.external_choices_csv:
+        success = sheet_to_csv(args.path_to_XLSForm, args.external_choices_csv, "external_choices")
+        if not success:
+            print "Count not output external_choices sheet. Maybe it is missing or empty."
+    if args.json:
+        # Store everything in a list just in case the user wants to output
+        # as a JSON encoded string.
+        response = {'code': None, 'message': None, 'warnings': []}
+
+        try:
+            response['warnings'] = xls2xform_convert(args.path_to_XLSForm, args.output_path)
+
+            response['code'] = 100
+            response['message'] = "Ok!"
+
+            if response['warnings']:
+                response['code'] = 101
+                response['message'] = 'Ok with warnings.'
+
+        except Exception as e:
+            # Catch the exception by default.
+            response['code'] = 999
+            response['message'] = str(e)
+
+        print json.dumps(response)
     else:
+        warnings = xls2xform_convert(args.path_to_XLSForm, args.output_path)
 
-        # --json flag present. Capture everything and report in JSON format.
-        if '--json' in argv:
-            # Store everything in a list just in case the user wants to output
-            # as a JSON encoded string.
-            response = {'code': None, 'message': None, 'warnings': []}
-
-            try:
-                response['warnings'] = xls2xform_convert()
-
-                response['code'] = 100
-                response['message'] = "Ok!"
-
-                if response['warnings']:
-                    response['code'] = 101
-                    response['message'] = 'Ok with warnings.'
-
-            except Exception as e:
-                # Catch the exception by default.
-                response['code'] = 999
-                response['message'] = str(e)
-
-            print json.dumps(response)
-
-        # --json not present. Do not capture anything.
-        else:
-            if '--choices_csv' in argv:
-                workbook_path = argv[1]
-                csv_path = argv[argv.index('--choices_csv') + 1]
-                write_choices_csv(workbook_path, csv_path)
-                
-            warnings = xls2xform_convert()
-
-            # Regular output. Just print.
-            for w in warnings:
-                print w
-            print 'Conversion complete!'
+        # Regular output. Just print.
+        print "Warnings:"
+        for w in warnings:
+            print w
+        print 'Conversion complete!'

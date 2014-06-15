@@ -6,17 +6,9 @@ import sys
 parentdir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.insert(0,parentdir)
 import pyxform
+from pyxform.utils import sheet_to_csv
 
 DIR = os.path.dirname(__file__)
-
-def write_choices_csv(workbook_path, csv_path):
-    import csv, xlrd
-    wb = xlrd.open_workbook(workbook_path)
-    sheet = wb.sheet_by_name('choices')
-    with open(csv_path, 'wb') as f:
-        writer = csv.writer(f, quoting=csv.QUOTE_ALL)
-        for r in range(sheet.nrows):
-            writer.writerow(sheet.row_values(r))
 
 class main_test(unittest.TestCase):
     
@@ -37,7 +29,7 @@ class main_test(unittest.TestCase):
             json_survey = pyxform.xls2json.parse_file_to_json(
                 path_to_excel_file)
 
-            write_choices_csv(path_to_excel_file, output_csv)
+            sheet_to_csv(path_to_excel_file, output_csv, "external_choices")
 
             survey = pyxform.create_survey_element_from_dict(json_survey)
 
