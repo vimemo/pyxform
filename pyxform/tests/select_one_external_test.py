@@ -29,7 +29,8 @@ class main_test(unittest.TestCase):
             json_survey = pyxform.xls2json.parse_file_to_json(
                 path_to_excel_file)
 
-            sheet_to_csv(path_to_excel_file, output_csv, "external_choices")
+            self.assertTrue(sheet_to_csv(path_to_excel_file, output_csv, "external_choices"))
+            self.assertFalse(sheet_to_csv(path_to_excel_file, output_csv, "non-existant sheet"))
 
             survey = pyxform.create_survey_element_from_dict(json_survey)
 
