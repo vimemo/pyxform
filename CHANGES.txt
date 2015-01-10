@@ -1,6 +1,3 @@
-Medic, 2015 01 09
-    -- Update to the 1.4.5 build of ODK Validate
-
 v0.9.5, 2012 06 21 -- Initial PyPI release.
 
 v0.9.6, 2012 06 21 -- Including necessary java files.
