@@ -1,3 +1,6 @@
+Medic, 2015 01 09
+    -- Update to the 1.4.5 build of ODK Validate
+
 v0.9.5, 2012 06 21 -- Initial PyPI release.
 
 v0.9.6, 2012 06 21 -- Including necessary java files.
@@ -53,6 +56,7 @@ v0.9.22
     -- Adding support for attribute columns
     -- Update to the 1.4.4 build of ODK Validate
     --  Adding external itemset support
+<<<<<<< HEAD
 
 v0.9.23, 2016 01 11
     -- add additional namespaces to the XForm
