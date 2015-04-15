@@ -1,9 +1,6 @@
 ============
-pyxform v0.9
+Medic Mobile's pyxform v0.9
 ============
-
-.. image:: https://travis-ci.org/XLSForm/pyxform.svg?branch=master
-    :target: https://travis-ci.org/XLSForm/pyxform
 
 This version of pyxform makes writing XForms for Medic Collect simpler by bringing SMS settings from the Settings worksheet to the XForms. The SMS settings currently used are `sms_keyword` and `sms_separator`. If they are omitted defaults appropriate for the medic-webapp parser are used.
 
