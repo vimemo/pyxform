@@ -382,6 +382,8 @@ def workbook_to_json(
 
     # Here we create our json dict root with default settings:
     id_string = settings.get(constants.ID_STRING, form_name)
+    #Replace default sms_keyword with Medic Mobile default; May break tests
+    #sms_keyword = settings.get(constants.SMS_KEYWORD, id_string)
     sms_keyword = settings.get(constants.SMS_KEYWORD, "J1!" + id_string + "!")
     sms_separator = settings.get(constants.SMS_SEPARATOR, "#")
     json_dict = {
