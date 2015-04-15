@@ -137,6 +137,8 @@ class Survey(Section):
     def xml_instance(self):
         result = Section.xml_instance(self)
         result.setAttribute(u"id", self.id_string)
+        result.setAttribute(u"prefix", self.sms_keyword)
+        result.setAttribute(u"delimiter", self.sms_separator)
 
         # add instance xmlns attribute to the instance node
         if self.instance_xmlns:

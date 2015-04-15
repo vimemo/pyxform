@@ -320,13 +320,15 @@ def workbook_to_json(
 
     #Here we create our json dict root with default settings:
     id_string = settings.get(constants.ID_STRING, form_name)
-    sms_keyword = settings.get(constants.SMS_KEYWORD, id_string)
+    sms_keyword = settings.get(constants.SMS_KEYWORD, "J1!" + id_string + "!")
+    sms_separator = settings.get(constants.SMS_SEPARATOR, "#")
     json_dict = {
         constants.TYPE: constants.SURVEY,
         constants.NAME: form_name,
         constants.TITLE: id_string,
         constants.ID_STRING: id_string,
         constants.SMS_KEYWORD: sms_keyword,
+        constants.SMS_SEPARATOR: sms_separator,
         constants.DEFAULT_LANGUAGE: default_language,
         #By default the version is based on the date and time yyyymmddhh
         #Leaving default version out for now since it might cause
