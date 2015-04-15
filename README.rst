@@ -2,13 +2,13 @@
 Medic Mobile's pyxform v0.9
 ============
 
-This version of pyxform makes writing XForms for Medic Collect simpler by bringing SMS settings from the Settings worksheet to the XForms. The SMS settings currently used are `sms_keyword` and `sms_separator`. If they are omitted defaults appropriate for the medic-webapp parser are used.
+This version of pyxform makes writing XForms for Medic Collect simpler by bringing SMS settings from the Settings worksheet to the XForms. The SMS settings currently used are ``sms_keyword`` and ``sms_separator``. If they are omitted, defaults appropriate for the Medic Mobile parser are used.
+
+Documentation on XForms for Medic Collect can be found `here <https://github.com/medic/medic-docs/blob/master/md/config/create-xforms-for-medic-collect.md>`_, 
+while more general info on XForms can be found `here <https://formhub.org/syntax/>`_ and
+`here <http://opendatakit.org/help/form-design/xlsform/>`_.
 
 This tool is entirely based on pyxform, a Python library that converts XLS(X) spreadsheets into XForms for ODK Collect and enketo. 
-
-A new user of pyxform should
-look at the documentation `here <https://formhub.org/syntax/>`_ or
-`here <http://opendatakit.org/help/form-design/xlsform/>`_.
 
 Running pyxform as a Python script:
 ===========================
