@@ -5,20 +5,13 @@ pyxform v0.9
 .. image:: https://travis-ci.org/XLSForm/pyxform.svg?branch=master
     :target: https://travis-ci.org/XLSForm/pyxform
 
-pyxform is a Python library that makes writing XForms for ODK Collect and enketo
-easy by converting XLS(X) spreadsheets into XForms. A new user of pyxform should
+This version of pyxform makes writing XForms for Medic Collect simpler by bringing SMS settings from the Settings worksheet to the XForms. The SMS settings currently used are `sms_keyword` and `sms_separator`. If they are omitted defaults appropriate for the medic-webapp parser are used.
+
+This tool is entirely based on pyxform, a Python library that converts XLS(X) spreadsheets into XForms for ODK Collect and enketo. 
+
+A new user of pyxform should
 look at the documentation `here <https://formhub.org/syntax/>`_ or
 `here <http://opendatakit.org/help/form-design/xlsform/>`_.
-
-pyxform is used by `opendatakit.org <http://opendatakit.org>`_ and by `formhub.org <http://formhub.org>`_.
-
-* opendatakit.org uses the repo here:
-https://github.com/uw-ictd/pyxform
-
-* formhub.org uses the repo here:
-https://github.com/modilabs/pyxform
-
-pyxform is a major rewrite of `xls2xform <http://github.com/mvpdev/xls2xform/>`_.
 
 Running pyxform as a Python script:
 ===========================
@@ -39,7 +32,7 @@ Installation
 ============
 Installing pyxform from github is easy with pip::
 
-	pip install -e git+https://github.com/INSERT GH USER NAME HERE/pyxform.git@master#egg=pyxform
+	pip install -e git+https://github.com/medic/pyxform.git@master#egg=pyxform
 
 Testing
 =======
@@ -61,6 +54,6 @@ To check out the documentation for pyxform do the following::
 
 	make html
 
-Change Log
+Upstream Change Log
 =========
 https://github.com/UW-ICTD/pyxform/blob/master/CHANGES.txt
