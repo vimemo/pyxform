@@ -37,3 +37,5 @@ v0.9.22
     --  Adding external itemset support
 v0.9.22, 2015 01 09
     -- Update to the 1.4.5 build of ODK Validate
+v0.9.22, 2015 08 24
+    -- Update to the 1.4.6 build of ODK Validate
