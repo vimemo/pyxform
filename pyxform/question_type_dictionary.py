@@ -155,6 +155,22 @@ QUESTION_TYPE_DICT = \
                 "type": "string"
             }
         },
+        "db:person": {
+            "control": {
+                "tag": "input"
+            },
+            "bind": {
+                "type": "string"
+            }
+        },
+        "db:place": {
+            "control": {
+                "tag": "input"
+            },
+            "bind": {
+                "type": "string"
+            }
+        },
         "q string": {
             "control": {
                 "tag": "input"
