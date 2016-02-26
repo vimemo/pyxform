@@ -160,15 +160,31 @@ QUESTION_TYPE_DICT = \
                 "tag": "input"
             },
             "bind": {
-                "type": "string"
+                "type": "db:person"
             }
         },
-        "db:place": {
+        "db:clinic": {
             "control": {
                 "tag": "input"
             },
             "bind": {
-                "type": "string"
+                "type": "db:clinic"
+            }
+        },
+        "db:health_center": {
+            "control": {
+                "tag": "input"
+            },
+            "bind": {
+                "type": "db:health_center"
+            }
+        },
+        "db:district": {
+            "control": {
+                "tag": "input"
+            },
+            "bind": {
+                "type": "db:district"
             }
         },
         "q string": {
