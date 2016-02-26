@@ -12,7 +12,7 @@ use with ODK Collect.
 """
 
 
-def xls2xform_convert(xlsform_path, xform_path, validate=True):
+def xls2xform_convert(xlsform_path, xform_path, validate=False):
     warnings = []
 
     json_survey = xls2json.parse_file_to_json(xlsform_path, warnings=warnings)
