@@ -19,7 +19,7 @@ def xls2xform_convert(xlsform_path, xform_path):
     # ODK Validate.
     # This may be desirable since ODK Validate requires launching a subprocess
     # that runs some java code.
-    survey.print_xform_to_file(xform_path, validate=True, warnings=warnings)
+    survey.print_xform_to_file(xform_path, validate=False, warnings=warnings)
     output_dir = os.path.split(xform_path)[0]
     if has_external_choices(json_survey):
         itemsets_csv = os.path.join(output_dir, "itemsets.csv")
