@@ -187,6 +187,14 @@ QUESTION_TYPE_DICT = \
                 "type": "db:district"
             }
         },
+        "tel": {
+            "control": {
+                "tag": "input"
+            },
+            "bind": {
+                "type": "tel"
+            }
+        },
         "q string": {
             "control": {
                 "tag": "input"
