@@ -179,12 +179,12 @@ QUESTION_TYPE_DICT = \
                 "type": "db:health_center"
             }
         },
-        "db:district": {
+        "db:district_hospital": {
             "control": {
                 "tag": "input"
             },
             "bind": {
-                "type": "db:district"
+                "type": "db:district_hospital"
             }
         },
         "tel": {
