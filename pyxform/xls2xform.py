@@ -31,7 +31,7 @@ def xls2xform_convert(xlsform_path, xform_path):
     return warnings
 
 
-if __name__ == '__main__':
+def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('path_to_XLSForm')
     parser.add_argument('output_path')
@@ -67,3 +67,7 @@ if __name__ == '__main__':
         for w in warnings:
             print w
         print 'Conversion complete!'
+
+
+if __name__ == '__main__':
+    main()
