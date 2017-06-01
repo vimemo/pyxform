@@ -20,6 +20,9 @@ Running pyxform as a Python script:
     easy_install pip
 
     pip install xlrd
+    
+    # on mac
+    brew install python && pip install xlrd
 
 2. Run this command:
 
