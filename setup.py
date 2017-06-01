@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(
-    name='pyxform',
+    name='pyxform-medic',
     version='0.9.22',
     author='modilabs',
     author_email='info@modilabs.org',
@@ -19,4 +19,9 @@ setup(
         'xlrd==0.8.0',
         'lxml==2.3.4',
     ],
+    entry_points={
+        'console_scripts': [
+            'xls2xform-medic=pyxform.xls2xform:main',
+        ],
+    },
 )
