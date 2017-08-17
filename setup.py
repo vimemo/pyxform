@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='pyxform',
+    name='pyxform-medic',
     version='0.9.24',
     author='github.com/xlsform',
     author_email='info@xlsform.org',
