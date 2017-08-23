@@ -32,7 +32,7 @@ Installation
 ============
 Installing pyxform from github is easy with pip::
 
-	pip install -e git+https://github.com/medic/pyxform.git@master#egg=pyxform
+	pip install -e git+https://github.com/medic/pyxform.git@medic-conf-1.5#egg=pyxform
 
 You can then run xls2xform from the commandline::
 
