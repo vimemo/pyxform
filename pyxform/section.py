@@ -140,9 +140,7 @@ class GroupedSection(Section):
             attributes['ref'] = self.get_xpath()
 
         if 'label' in self and len(self['label']) > 0:
-            values = [v for v in self['label'].values() if v != 'NO_LABEL']
-            if len(values) > 0:
-                children.append(self.xml_label())
+            children.append(self.xml_label())
         for n in Section.xml_control(self):
             children.append(n)
 
