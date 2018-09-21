@@ -143,7 +143,7 @@ class GroupedSection(Section):
             if isinstance(self['label'], dict):
                if len([v for v in self['label'].values() if v != 'NO_LABEL']):
                    children.append(self.xml_label())
-            else:
+            elif self['label']:
                 children.append(self.xml_label())
 
         for n in Section.xml_control(self):
