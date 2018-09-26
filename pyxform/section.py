@@ -33,6 +33,9 @@ class Section(SurveyElement):
         # Resolve field references in attributes
         for key, value in attributes.items():
             attributes[key] = survey.insert_xpaths(value)
+
+        if self.name == u"meta":
+            attributes[u"tag"] = u"hidden"
         result = node(self.name, **attributes)
         for child in self.children:
             if child.get(u"flat"):
@@ -80,6 +83,7 @@ class RepeatingSection(Section):
         </group>
         """
         control_dict = self.control.copy()
+
         survey = self.get_root()
         # Resolve field references in attributes
         for key, value in control_dict.items():
@@ -129,7 +133,6 @@ class GroupedSection(Section):
         children = []
         attributes = {}
         attributes.update(self.control)
-
         survey = self.get_root()
 
         # Resolve field references in attributes
@@ -140,8 +143,7 @@ class GroupedSection(Section):
             attributes['ref'] = self.get_xpath()
 
         if 'label' in self and len(self['label']) > 0:
-            if isinstance(self['label'], dict) and \
-                len([v for v in self['label'].values() if v != 'NO_LABEL']):
+            if self.has_translation():
                children.append(self.xml_label())
             else:
                 children.append(self.xml_label())

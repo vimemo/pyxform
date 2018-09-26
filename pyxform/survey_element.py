@@ -296,21 +296,27 @@ class SurveyElement(dict):
                 self.hint)
             return node(u"hint", hint, toParseString=output_inserted)
 
+    def has_translation(self):
+        return isinstance(self['label'], dict) and \
+            len([v for v in self['label'].values() if v != 'NO_LABEL'])
+
     def xml_label_and_hint(self):
         """
         Return a list containing one node for the label and if there
         is a hint one node for the hint.
         """
         result = []
-        if self.label or self.media:
-            result.append(self.xml_label())
-        if self.hint:
-            result.append(self.xml_hint())
 
-        if len(result) == 0:
-            msg = "The survey element named '%s' " \
+        if self.has_translation():
+            if self.label or self.media:
+                result.append(self.xml_label())
+            if self.hint:
+                result.append(self.xml_hint())
+
+            if len(result) == 0:
+                msg = "The survey element named '%s' " \
                   "has no label or hint." % self.name
-            raise PyXFormError(msg)
+                raise PyXFormError(msg)
 
         return result
 

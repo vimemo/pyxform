@@ -85,7 +85,7 @@ def main_cli():
         print(json.dumps(response))
     else:
         warnings = xls2xform_convert(args.path_to_XLSForm, args.output_path,
-                                     args.skip_validate)
+                                     not args.skip_validate)
         if len(warnings) > 0:
             print("Warnings:")
         for w in warnings:
